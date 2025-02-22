@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Khách Sạn Online</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css}" />
+<link rel="stylesheet"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css}" />
+</head>
+<body>
+	<header>
+		<h2 class="logo">Khách Sạn Online</h2>
+		<nav class="navigation">
+			<a th:href="@{/home}">Trang Chủ</a> <a th:href="@{/rooms}">Phòng</a>
+
+			<th:block
+				th:if="${session.user == null or !(session.user instanceof T(com.project.model.NhanVien))}">
+				<a th:href="@{/review}">Giới Thiệu Dự Án</a>
+			</th:block>
+
+			<th:block
+				th:if="${session.user instanceof T(com.project.model.NhanVien)}">
+				<a th:href="@{/admin/curd}">Quản Lý</a>
+				<a th:href="@{/admin/thong-ke}">Thống Kê</a>
+			</th:block>
+
+			<th:block th:if="${session.user != null}">
+				<div class="user-dropdown">
+					<a class="user-name" type="button"
+						th:text="${session.user instanceof T(com.project.model.KhachHang) ? session.user.tenKH : 
+                     (session.user instanceof T(com.project.model.NhanVien) ? session.user.tenNV : 'Người Dùng')}">
+					</a>
+					<div class="dropdown-content">
+						<a href="/profile">Hồ sơ</a> <a href="/logout">Đăng xuất</a>
+					</div>
+				</div>
+			</th:block>
+
+			<th:block th:if="${session.user == null}">
+				<button class="btnLogin-popup" type="button">Đăng Nhập</button>
+			</th:block>
+		</nav>
+	</header>
+
+
+	<div th:replace="~{${content}}"></div>
+	<footer>
+		<div class="footer-content">
+			<p>&copy; 2025 Khách Sạn Online. Tất cả các quyền được bảo lưu.</p>
+			<nav class="footer-nav">
+				<a href="#">Liên Hệ</a> | <a
+					href="/files/Chinh_Sach_Dieu_Khoan.docx" download>Chính Sách &
+					Điều Khoản</a> | <a href="/files/Chinh_Sach_Bao_Mat.docx" download>Bảo
+					Mật</a>
+			</nav>
+		</div>
+	</footer>
+	<script th:src="@{/js/admin.js}"></script>
+	<script type="text/javascript">
+setTimeout(function () {
+    var alertBox = document.getElementById("messageAlert");
+    if (alertBox) {
+        alertBox.style.display = "none";
+    }
+}, 2000);
+</script>
+</body>
+</html>

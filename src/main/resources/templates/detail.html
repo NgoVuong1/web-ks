@@ -1,0 +1,153 @@
+<section>
+	<section class="parallax-7">
+		<div class="parallax-inner">
+			<h1>Chi Tiết Phòng</h1>
+		</div>
+	</section>
+</section>
+<div class="title-index">
+	<h2>
+		Mã hiện tại của bạn đang chọn là: <span th:text="${phong.loaiPhong}"></span>
+	</h2>
+</div>
+<div class="container-chitiet">
+	<div class="room-chitiet">
+		<img th:src="@{/img/{img}(img=${phong.imagePath})}" alt="Ảnh phòng" />
+		<div class="status">
+			<label>Trạng thái:</label> <span th:text="${phong.trangThaiPhong}"></span>
+		</div>
+		<h2>Mô tả phòng</h2>
+		<div class="description">
+			<p th:text="${phong.moTa}"></p>
+		</div>
+	</div>
+	<form th:object="${datPhong}"
+		th:action="@{/dat-phong/{id}(id=${phong.maPhong})}" method="post">
+		<div class="booking-chitiet">
+			<div class="booking-header">
+				<div class="type" th:text="${phong.loaiPhong}"></div>
+				<div class="price">
+					Giá: <span th:text="${phong.giaPhong}"></span>&#8363;
+				</div>
+			</div>
+			<div class="section">
+				<h2>Thông tin khách hàng</h2>
+				<hr />
+				<div class="form-group">
+					<label>Số người:</label> <input type="number" th:field="*{soNguoi}"
+						min="1" step="1" />
+				</div>
+				<div class="form-group">
+					<label>Ngày đặt:</label> <input type="text" name="ngayDat" />
+				</div>
+				<div class="form-group">
+					<label>Ngày trả:</label> <input type="text" name="ngayTra" />
+				</div>
+
+				<div
+					th:if="${session.user == null or !(session.user instanceof T(com.project.model.NhanVien))}">
+					<div class="form-group">
+						<label>&#128100; Họ và tên:</label> <input type="text"
+							name="hoTen"
+							th:value="${session.user != null ? session.user.tenKH : ''}" />
+					</div>
+					<div class="form-group">
+						<label>&#128198; Ngày sinh:</label> <input type="text"
+							name="ngaySinh"
+							th:value="${session.user != null ? session.user.ngaySinh : ''}" />
+					</div>
+					<div class="form-group">
+						<label>&#128231; Email:</label> <input type="email" name="email"
+							th:value="${session.user != null ? session.user.email : ''}" />
+					</div>
+					<div class="form-group">
+						<label>&#128222; Số điện thoại:</label> <input type="text"
+							name="soDT"
+							th:value="${session.user != null ? session.user.soDT : ''}" />
+					</div>
+				</div>
+
+				<div
+					th:if="${session.user != null and session.user instanceof T(com.project.model.NhanVien)}">
+					<p>Vui lòng nhập thông tin khách hàng.</p>
+					<div class="form-group">
+						<label>&#128100; Họ và tên:</label> <input type="text"
+							name="hoTen" />
+					</div>
+					<div class="form-group">
+						<label>&#128198; Ngày sinh:</label> <input type="date"
+							name="ngaySinh" />
+					</div>
+					<div class="form-group">
+						<label>&#128231; Email:</label> <input type="email" name="email" />
+					</div>
+					<div class="form-group">
+						<label>&#128222; Số điện thoại:</label> <input type="text"
+							name="soDT" />
+					</div>
+				</div>
+			</div>
+			<div class="section">
+				<h2>Dịch vụ (thu phí)</h2>
+				<hr />
+				<div class="service">
+					<label for="service">Chọn dịch vụ:</label> <select id="service"
+						th:field="*{dichVu}">
+						<option value="" th:text="'Chọn dịch vụ'"></option>
+						<option th:each="dv : ${dichVuList}" th:value="${dv.maDV}"
+							th:text="${dv.tenDV}"></option>
+					</select>
+				</div>
+			</div>
+			<h2>Phương thức thanh toán</h2>
+			<hr />
+			<div class="section payment">
+				<div class="options">
+					<label for="paymentMethod">Chọn phương thức thanh toán:</label> <select
+						id="paymentMethod" th:field="*{thanhToan}">
+						<option value="" th:text="'Chọn phương thức thanh toán'"></option>
+						<option th:each="tt : ${thanhToanList}" th:value="${tt.maTT}"
+							th:text="${tt.phuongThucTT}"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<button class="options" type="submit">Xác nhận thanh toán</button>
+	</form>
+</div>
+
+<div class="title-index">
+	<h1>Bình Luận Của Khách Hàng</h1>
+</div>
+<br />
+<div class="member-container">
+	<section class="comment-container">
+		<div class="container swiper mySwiper">
+			<div class="swiper-wrapper">
+				<div class="comment-card swiper-slide"
+					th:each="review : ${danhGiaList}">
+					<div class="card-content">
+						<div class="image">
+							<img th:src="@{/img/{img}(img=${review.khachHang.imagePath})}"
+								alt="Ảnh của khách hàng" />
+						</div>
+						<div class="name-profession">
+							<span class="name1" th:text="${review.khachHang.tenKH}">Tên
+								khách hàng</span>
+						</div>
+						<div class="star-rating">
+							<span
+								th:utext="${#strings.repeat('&#9733;', review.diemDanhGia)}"></span>
+							<span
+								th:utext="${#strings.repeat('&#9734;', 5 - review.diemDanhGia)}"></span>
+						</div>
+						<div class="review-content">
+							<p th:text="${review.nhanXet}">Nội dung nhận xét</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+	</section>
+</div>

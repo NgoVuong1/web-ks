@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Khách Sạn Online</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css}" />
+<link rel="stylesheet"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css}" />
+</head>
+<body>
+	<header>
+		<h2 class="logo">Khách Sạn Online</h2>
+		<nav class="navigation">
+			<a th:href="@{/home}">Trang Chủ</a> <a th:href="@{/rooms}">Phòng</a>
+
+			<th:block
+				th:if="${session.user == null or !(session.user instanceof T(com.project.model.NhanVien))}">
+				<a th:href="@{/review}">Giới Thiệu Dự Án</a>
+			</th:block>
+
+			<th:block
+				th:if="${session.user instanceof T(com.project.model.NhanVien)}">
+				<a th:href="@{/admin/curd}">Quản Lý</a>
+				<a th:href="@{/admin/thong-ke}">Thống Kê</a>
+			</th:block>
+
+			<th:block th:if="${session.user != null}">
+				<div class="user-dropdown">
+					<a class="user-name" type="button"
+						th:text="${session.user instanceof T(com.project.model.KhachHang) ? session.user.tenKH : 
+                     (session.user instanceof T(com.project.model.NhanVien) ? session.user.tenNV : 'Người Dùng')}">
+					</a>
+					<div class="dropdown-content">
+						<a href="/profile">Hồ sơ</a> <a href="/logout">Đăng xuất</a>
+					</div>
+				</div>
+			</th:block>
+
+			<th:block th:if="${session.user == null}">
+				<button class="btnLogin-popup" type="button">Đăng Nhập</button>
+			</th:block>
+		</nav>
+	</header>
+
+
+	<div class="wrapper">
+		<span class="icon-close"> <ion-icon name="close"></ion-icon>
+		</span>
+		<div class="form-box login">
+			<h2>Đăng Nhập</h2>
+			<form action="/login" method="post">
+				<div class="input-box">
+					<span class="icon"><ion-icon name="mail"></ion-icon></span> <input
+						type="email" name="email" required /> <label>Email</label>
+				</div>
+				<div class="input-box">
+					<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+					<input type="password" name="password" required /> <label>Password</label>
+				</div>
+				<div class="remember-forgot">
+					<label> <input type="checkbox" /> Lưu mật khẩu
+					</label> <a href="#">Quên mật khẩu?</a>
+				</div>
+				<button type="submit" class="btn">Đăng Nhập</button>
+				<div class="login-register">
+					<p>
+						Chưa có tài khoản? <a href="#" class="register-link">Đăng ký</a>
+					</p>
+				</div>
+			</form>
+		</div>
+
+		<div class="form-box register">
+			<h2>Đăng Ký</h2>
+			<form action="/register" method="post">
+				<div class="input-box">
+					<span class="icon"><ion-icon name="person"></ion-icon></span> <input
+						type="text" name="username" required /> <label>Tài khoản</label>
+				</div>
+				<div class="input-box">
+					<span class="icon"><ion-icon name="mail"></ion-icon></span> <input
+						type="email" name="email" required /> <label>Email</label>
+				</div>
+				<div class="input-box">
+					<span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+					<input type="password" name="password" required /> <label>Password</label>
+				</div>
+				<div class="remember-forgot">
+					<label> <input type="checkbox" /> Tôi đồng ý với chính
+						sách & điều khoản
+					</label>
+				</div>
+				<button type="submit" class="btn">Đăng Ký</button>
+				<div class="login-register">
+					<p>
+						Tôi đã có tài khoản <a href="#" class="login-link">Đăng nhập</a>
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	
+	<div th:replace="~{${content}}"></div>
+	<div id="chat-icon">💬</div>
+
+	<div class="chatbot-card">
+		<h3>Chat với Chatbot</h3>
+		<div class="chatbox">
+			<div class="messages" id="messages"></div>
+			<input type="text" id="user-input" placeholder="Nhập tin nhắn..." />
+			<button id="send-button">Gửi</button>
+		</div>
+	</div>
+
+	<footer>
+		<div class="footer-content">
+			<p>&copy; 2025 Khách Sạn Online. Tất cả các quyền được bảo lưu.</p>
+			<nav class="footer-nav">
+				<a href="#">Liên Hệ</a> | <a
+					href="/files/Chinh_Sach_Dieu_Khoan.docx" download>Chính Sách &
+					Điều Khoản</a> | <a href="/files/Chinh_Sach_Bao_Mat.docx" download>Bảo
+					Mật</a> |
+			</nav>
+		</div>
+	</footer>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+	<script>
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 4,
+        spaceBetween: 30,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
+      
+      setTimeout(function () {
+          var messageBox = document.getElementById("messageAlert");
+          var errorBox = document.getElementById("errorAlert");
+
+          if (messageBox) {
+              messageBox.style.display = "none";
+          }
+
+          if (errorBox) {
+              errorBox.style.display = "none";
+          }
+      }, 2000);
+    </script>
+	<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/js/scroll.js}"></script>
+	<script th:src="@{/js/bot.js}"></script>
+
+	<script type="module"
+		src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule
+		src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

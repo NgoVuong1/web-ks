@@ -1,0 +1,317 @@
+<div class="space">
+	<img src="/image/admin1.jpg" alt="Admin Image">
+</div>
+<section class="table-section">
+	<div class="tab-menu">
+		<button class="tab-button active"
+			onclick="openTab(event, 'khach-hang')">Quản Lý Khách Hàng</button>
+		<button class="tab-button" onclick="openTab(event, 'nhan-vien')">Quản
+			Lý Nhân Viên</button>
+		<button class="tab-button" onclick="openTab(event, 'phong')">Quản
+			Lý Phòng</button>
+		<button class="tab-button" onclick="openTab(event, 'dich-vu')">Quản
+			Lý Dịch Vụ</button>
+		<button class="tab-button" onclick="openTab(event, 'thanh-toan')">Quản
+			Lý Thanh Toán</button>
+		<button class="tab-button" onclick="openTab(event, 'dat-phong')">Quản
+			Lý Đặt Phòng</button>
+	</div>
+
+	<div id="khach-hang" class="tab-content active">
+		<div class="form-container">
+			<form th:action="@{/admin/create-kh}" th:object="${khachHang}"
+				method="post">
+				<input type="hidden" th:field="*{maKH}" /> <input
+					th:field="*{tenKH}" placeholder="Tên Khách Hàng" required /> <select
+					th:field="*{gioiTinh}" required>
+					<option value="Nam">Nam</option>
+					<option value="Nữ">Nữ</option>
+					<option value="Khác">Khác</option>
+				</select> <input th:field="*{soDT}" placeholder="Số Điện Thoại" required />
+				<input th:field="*{email}" placeholder="Email" required /> <input
+					type="text" th:field="*{ngaySinh}" placeholder="Ngày Sinh" required />
+				<select th:field="*{loaiKH}" required>
+					<option value="Thường">Thường</option>
+					<option value="VIP">VIP</option>
+				</select> <input type="text" th:field="*{matKhau}" placeholder="Mật khẩu"
+					required />
+				<div class="button-container">
+					<button type="submit" class="btn-create">Lưu</button>
+					<a href="/admin/reset" class="btn-reset">Reset</a>
+				</div>
+			</form>
+		</div>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Tên</th>
+				<th>Giới Tính</th>
+				<th>Số ĐT</th>
+				<th>Email</th>
+				<th>Ngày Sinh</th>
+				<th>Loại KH</th>
+				<th>Mật Khẩu</th>
+				<th>Hành Động</th>
+			</tr>
+			<th:block th:each="kh : ${listKhachHang}">
+				<tr>
+					<td th:text="${kh.maKH}"></td>
+					<td th:text="${kh.tenKH}"></td>
+					<td th:text="${kh.gioiTinh}"></td>
+					<td th:text="${kh.soDT}"></td>
+					<td th:text="${kh.email}"></td>
+					<td th:text="${kh.ngaySinh}"></td>
+					<td th:text="${kh.loaiKH}"></td>
+					<td th:text="${kh.matKhau}"></td>
+					<td><a th:href="@{|/admin/edit-kh/${kh.maKH}|}"
+						class="btn-create">Sửa</a> <a
+						th:href="@{|/admin/delete-kh/${kh.maKH}|}" class="btn-delete">Xóa</a>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+
+	<div id="nhan-vien" class="tab-content">
+		<div class="form-container">
+			<form th:action="@{/admin/create-nv}" th:object="${nhanVien}"
+				method="post">
+				<input type="hidden" th:field="*{maNV}" /> <input
+					th:field="*{tenNV}" placeholder="Tên Nhân Viên" required /> <select
+					th:field="*{gioiTinh}" required>
+					<option value="Nam">Nam</option>
+					<option value="Nữ">Nữ</option>
+					<option value="Khác">Khác</option>
+				</select> <input th:field="*{soDT}" placeholder="Số Điện Thoại" required />
+				<input th:field="*{email}" placeholder="Email" required /> <input
+					type="text" th:field="*{ngaySinh}" placeholder="Ngày Sinh" required />
+				<input th:field="*{chucVu}" placeholder="Chức Vụ" required /> <input
+					th:field="*{luong}" placeholder="Lương" required /> <input
+					type="text" th:field="*{ngayVaoLam}" placeholder="Ngày Vào Làm"
+					required /> <select th:field="*{trangThaiCV}" required>
+					<option value="Đang làm">Đang làm</option>
+					<option value="Nghỉ việc">Nghỉ việc</option>
+				</select> <input type="text" th:field="*{matKhau}" placeholder="Mật khẩu"
+					required />
+				<div class="button-container">
+					<button type="submit" class="btn-create">Lưu</button>
+					<a href="/admin/reset" class="btn-reset">Reset</a>
+				</div>
+			</form>
+		</div>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Tên</th>
+				<th>Giới Tính</th>
+				<th>Số ĐT</th>
+				<th>Email</th>
+				<th>Ngày Sinh</th>
+				<th>Chức Vụ</th>
+				<th>Lương</th>
+				<th>Ngày Vào Làm</th>
+				<th>Trạng Thái CV</th>
+				<th>Mật Khẩu</th>
+				<th>Hành Động</th>
+			</tr>
+			<th:block th:each="nv : ${listNhanVien}">
+				<tr>
+					<td th:text="${nv.maNV}"></td>
+					<td th:text="${nv.tenNV}"></td>
+					<td th:text="${nv.gioiTinh}"></td>
+					<td th:text="${nv.soDT}"></td>
+					<td th:text="${nv.email}"></td>
+					<td th:text="${nv.ngaySinh}"></td>
+					<td th:text="${nv.chucVu}"></td>
+					<td th:text="${nv.luong}"></td>
+					<td th:text="${nv.ngayVaoLam}"></td>
+					<td th:text="${nv.trangThaiCV}"></td>
+					<td th:text="${nv.matKhau}"></td>
+					<td><a th:href="@{|/admin/edit-nv/${nv.maNV}|}"
+						class="btn-create">Sửa</a> <a
+						th:href="@{|/admin/delete-nv/${nv.maNV}|}" class="btn-delete">Xóa</a>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+
+	<!-- Tab: Quản Lý Phòng -->
+	<div id="phong" class="tab-content">
+		<div class="form-container">
+			<form th:action="@{/admin/create-phong}" th:object="${phong}"
+				method="post">
+				<input type="hidden" th:field="*{maPhong}" /> <input
+					th:field="*{loaiPhong}" placeholder="Loại Phòng" required /> <input
+					th:field="*{trangThaiPhong}" placeholder="Trạng Thái Phòng"
+					required /> <input th:field="*{moTa}" placeholder="Mô Tả" required />
+				<input th:field="*{giaPhong}" placeholder="Giá Phòng" required /> <input
+					th:field="*{imagePath}" placeholder="Đường Dẫn Hình Ảnh" required />
+				<div class="button-container">
+					<button type="submit" class="btn-create">Lưu</button>
+					<a href="/admin/reset" class="btn-reset">Reset</a>
+				</div>
+			</form>
+		</div>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Loại Phòng</th>
+				<th>Trạng Thái</th>
+				<th>Mô Tả</th>
+				<th>Giá Phòng</th>
+				<th>Hình Ảnh</th>
+				<th>Hành Động</th>
+			</tr>
+			<th:block th:each="p : ${listPhong}">
+				<tr>
+					<td th:text="${p.maPhong}"></td>
+					<td th:text="${p.loaiPhong}"></td>
+					<td th:text="${p.trangThaiPhong}"></td>
+					<td th:text="${p.moTa}"></td>
+					<td th:text="${p.giaPhong}"></td>
+					<td><img th:src="@{${p.imagePath}}" alt="Hình Phòng"
+						style="width: 50px; height: 50px;" /></td>
+					<td><a th:href="@{|/admin/edit-phong/${p.maPhong}|}"
+						class="btn-create">Sửa</a> <a
+						th:href="@{|/admin/delete-phong/${p.maPhong}|}" class="btn-delete">Xóa</a>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+
+	<div id="dich-vu" class="tab-content">
+		<div class="form-container">
+			<form th:action="@{/admin/create-dv}" th:object="${dichVu}"
+				method="post">
+				<input type="hidden" th:field="*{maDV}" /> <input
+					th:field="*{tenDV}" placeholder="Tên Dịch Vụ" required /> <input
+					th:field="*{giaDV}" placeholder="Giá Dịch Vụ" required /> <input
+					th:field="*{moTa}" placeholder="Mô Tả" required />
+				<div class="button-container">
+					<button type="submit" class="btn-create">Lưu</button>
+					<a href="/admin/reset" class="btn-reset">Reset</a>
+				</div>
+			</form>
+		</div>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Tên Dịch Vụ</th>
+				<th>Giá Dịch Vụ</th>
+				<th>Mô Tả</th>
+				<th>Thời Gian Thêm</th>
+				<th>Hành Động</th>
+			</tr>
+			<th:block th:each="dv : ${listDichVu}">
+				<tr>
+					<td th:text="${dv.maDV}"></td>
+					<td th:text="${dv.tenDV}"></td>
+					<td th:text="${dv.giaDV}"></td>
+					<td th:text="${dv.moTa}"></td>
+					<td th:text="${dv.thoiGianThemDV}"></td>
+					<td><a th:href="@{|/admin/edit-dv/${dv.maDV}|}"
+						class="btn-create">Sửa</a> <a
+						th:href="@{|/admin/delete-dv/${dv.maDV}|}" class="btn-delete">Xóa</a>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+
+	<!-- Tab: Quản Lý Thanh Toán -->
+	<div id="thanh-toan" class="tab-content">
+		<div class="form-container">
+			<form th:action="@{/admin/create-tt}" th:object="${thanhToan}"
+				method="post">
+				<input type="hidden" th:field="*{maTT}" /> <input
+					th:field="*{soTien}" placeholder="Số Tiền" required /> <input
+					type="text" th:field="*{ngayTT}" placeholder="Ngày Thanh Toán"
+					required /> <input th:field="*{phuongThucTT}"
+					placeholder="Phương Thức Thanh Toán" required />
+				<div class="button-container">
+					<button type="submit" class="btn-create">Lưu</button>
+					<a href="/admin/reset" class="btn-reset">Reset</a>
+				</div>
+			</form>
+		</div>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Số Tiền</th>
+				<th>Ngày TT</th>
+				<th>Phương Thức</th>
+				<th>Hành Động</th>
+			</tr>
+			<th:block th:each="tt : ${listThanhToan}">
+				<tr>
+					<td th:text="${tt.maTT}"></td>
+					<td th:text="${tt.soTien}"></td>
+					<td th:text="${tt.ngayTT}"></td>
+					<td th:text="${tt.phuongThucTT}"></td>
+					<td><a th:href="@{|/admin/edit-tt/${tt.maTT}|}"
+						class="btn-create">Sửa</a> <a
+						th:href="@{|/admin/delete-tt/${tt.maTT}|}" class="btn-delete">Xóa</a>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+
+
+	<!-- Tab: Quản Lý Đặt Phòng -->
+	<div id="dat-phong" class="tab-content">
+		<div class="form-container">
+			<form th:action="@{/admin/create-dp}" th:object="${datPhong}"
+				method="post">
+				<input type="hidden" th:field="*{maDP}" /> <input
+					th:field="*{soNguoi}" placeholder="Số Người" required /> <input
+					type="text" th:field="*{ngayDat}" placeholder="Ngày Đặt" required />
+				<input type="" text"" th:field="*{ngayTra}" placeholder="Ngày Trả"
+					required /> <input th:field="*{khachHang.maKH}"
+					placeholder="Mã Khách Hàng" required /> <input
+					th:field="*{nhanVien.maNV}" placeholder="Mã Nhân Viên" required />
+				<input th:field="*{phong.maPhong}" placeholder="Mã Phòng" required />
+				<input th:field="*{dichVu.maDV}" placeholder="Mã Dịch Vụ" required />
+				<input th:field="*{thanhToan.maTT}" placeholder="Mã Thanh Toán"
+					required />
+				<div class="button-container">
+					<button type="submit" class="btn-create">Lưu</button>
+					<a href="/admin/reset" class="btn-reset">Reset</a>
+				</div>
+			</form>
+		</div>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Số Người</th>
+				<th>Ngày Đặt</th>
+				<th>Ngày Trả</th>
+				<th>Khách Hàng</th>
+				<th>Nhân Viên</th>
+				<th>Phòng</th>
+				<th>Dịch Vụ</th>
+				<th>Phương thức thanh toán</th>
+				<th>Hành Động</th>
+			</tr>
+			<th:block th:each="dp : ${listDatPhong}">
+				<tr>
+					<td th:text="${dp.maDP}"></td>
+					<td th:text="${dp.soNguoi}"></td>
+					<td th:text="${dp.ngayDat}"></td>
+					<td th:text="${dp.ngayTra}"></td>
+					<td th:text="${dp.khachHang.tenKH}"></td>
+					<td th:text="${dp.nhanVien.tenNV}"></td>
+					<td th:text="${dp.phong.loaiPhong}"></td>
+					<td th:text="${dp.dichVu.tenDV}"></td>
+					<td th:text="${dp.thanhToan.phuongThucTT}"></td>
+					<td><a th:href="@{|/admin/edit-dp/${dp.maDP}|}"
+						class="btn-create">Sửa</a> <a
+						th:href="@{|/admin/delete-dp/${dp.maDP}|}" class="btn-delete">Xóa</a>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+</section>

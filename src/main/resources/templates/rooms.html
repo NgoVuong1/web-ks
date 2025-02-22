@@ -1,0 +1,52 @@
+<section>
+	<section class="parallax-7">
+		<div class="parallax-inner">
+			<h1>Danh Sách Phòng</h1>
+		</div>
+	</section>
+</section>
+</br>
+</br>
+<form th:action="@{/rooms}" method="GET" class="search-bar">
+	<div class="options">
+		<select id="roomType" name="roomType">
+			<option value="">Chọn loại phòng</option>
+			<option th:each="room : ${danhSachPhong}"
+				th:value="${room.loaiPhong}" th:text="${room.loaiPhong}"></option>
+		</select>
+	</div>
+	Từ
+	<div class="options">
+		<input type="date" id="checkIn" name="checkIn"
+			th:value="${param.checkIn}" />
+	</div>
+	Đến
+	<div class="options">
+		<input type="date" id="checkOut" name="checkOut"
+			th:value="${param.checkOut}" />
+	</div>
+
+	<div class="options">
+		<button type="submit">Tìm kiếm</button>
+	</div>
+</form>
+
+<br />
+<br />
+<div class="container-rooms">
+	<th:block th:each="phong : ${danhSachPhong}">
+		<figure class="card-rooms">
+			<div class="image">
+				<img src="/image/Ghpzrj6bcAANex7.png" th:alt="${phong.loaiPhong}">
+			</div>
+			<figcaption>
+				<h3 th:text="${phong.loaiPhong}">Tên Phòng</h3>
+				<h4 th:text="${phong.moTa}">Mô tả</h4>
+				<h4
+					th:text="'Giá: ' + ${#numbers.formatDecimal(phong.giaPhong, 0, 'COMMA', 0, 'POINT')} + ' VND/ngày'">Giá</h4>
+			</figcaption>
+			<a th:href="@{/detail/{id}(id=${phong.maPhong})}">Xem Thêm</a>
+		</figure>
+	</th:block>
+</div>
+

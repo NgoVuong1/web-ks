@@ -1,0 +1,332 @@
+<style>
+.list-group {
+	list-style: none;
+	padding: 0;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.list-group-item {
+	background: #f8f9fa;
+	padding: 15px;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item form {
+	display: inline-block;
+	margin: 5px;
+}
+
+.button-container {
+	text-align: center;
+	margin-top: 10px;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 16px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+button:hover {
+	opacity: 0.8;
+}
+
+.cancel-button {
+	background-color: #dc3545;
+	color: white;
+}
+
+.pay-button {
+	background-color: #28a745;
+	color: white;
+}
+</style>
+
+
+<div class="space">
+	<img src="/image/background.jpg" alt="Profile Background">
+</div>
+
+<section class="table-section">
+	<div class="tab-menu">
+		<button class="tab-button active"
+			onclick="openTab(event, 'profile-info')">Hồ Sơ</button>
+		<button class="tab-button" onclick="openTab(event, 'booked-rooms')">Phòng
+			Đã Đặt</button>
+	</div>
+
+	<div id="profile-info" class="tab-content active">
+		<form action="/profile" method="post">
+			<div class="container-hs">
+				<h2>Hồ Sơ Người Dùng</h2>
+				<th:block th:if="${user instanceof T(com.project.model.KhachHang)}">
+					<div class="hang">
+						<div class="left">
+							<label for="maKH">Mã khách hàng</label>
+						</div>
+						<div class="right">
+							<input type="text" id="maKH" name="maKH" th:value="${user.maKH}">
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="tenKH">Tên khách hàng</label>
+						</div>
+						<div class="right">
+							<input type="text" id="tenKH" name="tenKH"
+								th:value="${user.tenKH}">
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="gioiTinh">Giới tính</label>
+						</div>
+						<div class="right">
+							<select class="can" id="gioiTinh" name="gioiTinh">
+								<option value="true" th:selected="${user.gioiTinh == true}">Nam</option>
+								<option value="false" th:selected="${user.gioiTinh == false}">Nữ</option>
+							</select>
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="soDT">Số điện thoại</label>
+						</div>
+						<div class="right">
+							<input type="text" id="soDT" name="soDT" th:value="${user.soDT}">
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="email">Email</label>
+						</div>
+						<div class="right">
+							<input type="email" id="email" name="email"
+								th:value="${user.email}">
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="ngaySinh">Ngày sinh</label>
+						</div>
+						<div class="right">
+							<input type="date" id="ngaySinh" name="ngaySinh"
+								th:value="${user.ngaySinh}">
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="loaiKH">Loại khách hàng</label>
+						</div>
+						<div class="right">
+							<input type="text" id="loaiKH" name="loaiKH"
+								th:value="${user.loaiKH}">
+						</div>
+					</div>
+					<div class="hang">
+						<div class="left">
+							<label for="matKhau">Mật khẩu</label>
+						</div>
+						<div class="right">
+							<input type="password" id="matKhau" name="matKhau"
+								th:value="${user.matKhau}">
+						</div>
+					</div>
+					<div class="button-container">
+						<button class="booking-button" type="button">Thay đổi
+							thông tin</button>
+						<button class="booking-button" type="submit">Xác nhận
+							thông tin</button>
+					</div>
+				</th:block>
+				<th:block th:if="${user instanceof T(com.project.model.NhanVien)}">
+					<div class="container-hs">
+						<div class="hang">
+							<div class="left">
+								<label for="maNV">Mã nhân viên</label>
+							</div>
+							<div class="right">
+								<input type="text" id="maNV" name="maNV" th:value="${user.maNV}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="tenNV">Tên nhân viên</label>
+							</div>
+							<div class="right">
+								<input type="text" id="tenNV" name="tenNV"
+									th:value="${user.tenNV}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="gioiTinh">Giới tính</label>
+							</div>
+							<div class="right">
+								<select class="can" id="gioiTinh" name="gioiTinh">
+									<option value="true" th:selected="${user.gioiTinh == true}">Nam</option>
+									<option value="false" th:selected="${user.gioiTinh == false}">Nữ</option>
+								</select>
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="soDT">Số điện thoại</label>
+							</div>
+							<div class="right">
+								<input type="text" id="soDT" name="soDT" th:value="${user.soDT}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="email">Email</label>
+							</div>
+							<div class="right">
+								<input type="email" id="email" name="email"
+									th:value="${user.email}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="ngaySinh">Ngày sinh</label>
+							</div>
+							<div class="right">
+								<input type="date" id="ngaySinh" name="ngaySinh"
+									th:value="${user.ngaySinh}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="chucVu">Chức vụ</label>
+							</div>
+							<div class="right">
+								<input type="text" id="chucVu" name="chucVu"
+									th:value="${user.chucVu}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="luong">Lương</label>
+							</div>
+							<div class="right">
+								<input type="text" id="luong" name="luong"
+									th:value="${user.luong}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="ngayVaoLam">Ngày vào làm</label>
+							</div>
+							<div class="right">
+								<input type="date" id="ngayVaoLam" name="ngayVaoLam"
+									th:value="${user.ngayVaoLam}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="trangThaiCV">Trạng thái công việc</label>
+							</div>
+							<div class="right">
+								<input type="text" id="trangThaiCV" name="trangThaiCV"
+									th:value="${user.trangThaiCV}">
+							</div>
+						</div>
+						<div class="hang">
+							<div class="left">
+								<label for="matKhau">Mật khẩu</label>
+							</div>
+							<div class="right">
+								<input type="password" id="matKhau" name="matKhau"
+									th:value="${user.matKhau}">
+							</div>
+						</div>
+						<div class="button-container">
+							<button class="booking-button" type="button">Thay đổi
+								thông tin</button>
+							<button class="booking-button" type="submit">Xác nhận
+								thông tin</button>
+						</div>
+					</div>
+				</th:block>
+			</div>
+	</div>
+	</form>
+
+	<div id="booked-rooms" class="tab-content">
+		<div class="user-profile">
+			<h2 style="text-align: center; color: #007BFF;">Danh Sách Phòng
+				Đã Đặt</h2>
+			<th:block th:if="${#lists.isEmpty(danhSachPhongDat)}">
+				<p style="text-align: center; margin-top: 20px;">Bạn chưa đặt
+					phòng nào!</p>
+			</th:block>
+			<th:block th:unless="${#lists.isEmpty(danhSachPhongDat)}">
+				<ul class="list-group">
+					<li class="list-group-item" th:each="dp : ${danhSachPhongDat}">
+						<p>
+							<strong>Mã Phòng:</strong> <span th:text="${dp.phong.maPhong}"></span>
+						</p>
+						<p>
+							<strong>Loại Phòng:</strong> <span
+								th:text="${dp.phong.loaiPhong}"></span>
+						</p>
+						<p>
+							<strong>Mô tả:</strong> <span th:text="${dp.phong.moTa}"></span>
+						</p>
+						<p>
+							<strong>Giá:</strong> <span th:text="${dp.phong.giaPhong}"></span>
+							VND/ngày
+						</p>
+						<div class="button-container">
+							<form th:action="@{/huy-dat-phong/{id}(id=${dp.maDP})}"
+								method="post">
+								<button type="submit" class="cancel-button"
+									onclick="return confirm('Bạn có chắc chắn muốn hủy?')">Hủy</button>
+							</form>
+							<form th:action="@{/thanh-toan/{id}(id=${dp.maDP})}"
+								method="post">
+								<th:block th:if="${dp.phong.trangThaiPhong == 'Chưa đặt'}">
+									<button class="btn btn-primary">Thanh toán</button>
+								</th:block>
+								<th:block th:if="${dp.phong.trangThaiPhong == 'Đã đặt'}">
+									<button class="btn btn-success">Đánh giá</button>
+								</th:block>
+							</form>
+						</div>
+					</li>
+				</ul>
+			</th:block>
+		</div>
+	</div>
+</section>
+
+<script>
+	function openTab(evt, tabName) {
+		var tabcontent = document.getElementsByClassName("tab-content");
+		for (var i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].classList.remove("active");
+		}
+		var tabbuttons = document.getElementsByClassName("tab-button");
+		for (var i = 0; i < tabbuttons.length; i++) {
+			tabbuttons[i].classList.remove("active");
+		}
+		document.getElementById(tabName).classList.add("active");
+		evt.currentTarget.classList.add("active");
+	}
+
+	document.getElementById("imageUpload").addEventListener("change",
+			function(event) {
+				let reader = new FileReader();
+				reader.onload = function() {
+					let output = document.getElementById("previewImage");
+					output.src = reader.result;
+				};
+				reader.readAsDataURL(event.target.files[0]);
+			});
+</script>

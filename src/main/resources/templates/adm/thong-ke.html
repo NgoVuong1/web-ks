@@ -1,0 +1,34 @@
+<div class="space">
+    <img src="/image/admin2.jpg" alt="Admin Statistics Banner" />
+  </div>
+  <section class="statistics">
+    <div class="stats-container">
+      <div class="left-section">
+        <h3>Tổng Doanh Thu</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Loại Báo Cáo</th>
+              <th>Nội Dung</th>
+              <th>Giá Trị</th>
+              <th>Ngày Báo Cáo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="tk : ${listThongKe}">
+              <td th:text="${tk.loaiBaoCao}">Loại Báo Cáo</td>
+              <td th:text="${tk.noiDung}">Nội Dung</td>
+              <td th:text="${tk.giaTri}">Giá Trị</td>
+              <td th:text="${tk.ngayBaoCao}">Ngày Báo Cáo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="right-section">
+      <h3>Biểu Đồ Doanh Thu</h3>
+      <canvas id="chart-container"></canvas>
+    </div>
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
